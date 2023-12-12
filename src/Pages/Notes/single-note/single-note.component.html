@@ -1,0 +1,65 @@
+<section
+  class="my-4 border border-slate-500 p-4 rounded-md min-h-[300px] flex items-start gap-4"
+>
+  <div class="mt-4">
+    <ng-icon
+      (click)="goBack()"
+      class="text-2xl cursor-pointer"
+      name="faSolidArrowLeft "
+    />
+  </div>
+  @if(note){
+
+  <div class="flex-1">
+    @if(isEditing){
+    <form (ngSubmit)="onSubmit()" [formGroup]="noteForm" class="flex flex-col">
+      <input
+        formControlName="title"
+        type="text"
+        [value]="note.title?.trim()"
+        class="input w-full p-2 font-bold text-4xl border-slate-600 m-0 focus:outline-none border focus:border-0"
+      />
+      <br />
+      <textarea
+        formControlName="body"
+        rows="5"
+        [value]="note.body?.trim()"
+        style="
+          ::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+          }
+        "
+        class="textarea p-2 text-lg resize-none border-slate-600 textarea-lg w-full focus:outline-none border focus:border-0"
+      >
+      </textarea>
+      <div class="flex justify-end">
+        <button type="submit" class="btn">Save</button>
+        <button (click)="isEditing = !isEditing" type="button" class="btn">
+          Close
+        </button>
+      </div>
+    </form>
+
+    }@else {
+    <h2 class="font-bold p-2 text-4xl">{{ note.title?.trim() }}</h2>
+
+    <p class="text-lg p-2">{{ note.body?.trim() }}</p>
+    }
+  </div>
+  }@else {
+  <div class="flex flex-1 justify-center w-full items-center h-full">
+    <loading-spinner />
+  </div>
+  }
+  <div class="flex flex-col gap-2 justify-between items-center min-h-full mt-4">
+    @if(isEditing || !note){ }@else {
+
+    <ng-icon
+      (click)="isEditing = !isEditing"
+      class="text-2xl cursor-pointer"
+      name="faPenToSquare "
+    />
+    }
+  </div>
+</section>

@@ -1,0 +1,47 @@
+<form
+  #notesFormRef
+  (click)="expandForm()"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="noteForm"
+  [class.h-48]="formClicked"
+  [class.h-8]="!formClicked"
+  class="mt-4 mb-6 flex flex-col justify-start items-center transition-all duration-300 h-8 overflow-hidden"
+  style="transition: height 300ms ease-out"
+>
+  <input
+    formControlName="title"
+    type="text"
+    placeholder="What is on your mind?"
+    class="input rounded-none w-full max-w-5xl text-2xl border-b-2 focus:outline-none focus:border-transparent focus:border-b-2 focus:border-b-slate-500"
+  />
+  <textarea
+    formControlName="body"
+    placeholder="body"
+    rows="20"
+    style="
+      ::-webkit-scrollbar {
+        width: 0;
+        background: transparent;
+      }
+    "
+    class="textarea resize-none textarea-lg w-full max-w-5xl focus:outline-none focus:border-transparent p-4"
+  ></textarea>
+
+  <div class="self-end gap-2">
+    <button
+      [disabled]="noteForm.getError('nameOrTitle') || isLoading"
+      type="submit"
+      class="btn self-end"
+    >
+      @if(isLoading){<small-loading-spinner /> }@else { save }
+    </button>
+    <button (click)="shrinkForm($event)" type="button" class="btn self-end">
+      close
+    </button>
+  </div>
+
+  @if (noteForm.getError('nameOrTitle') && noteForm.dirty) {
+
+  <p>a note must have a title or a body or both</p>
+  }
+</form>

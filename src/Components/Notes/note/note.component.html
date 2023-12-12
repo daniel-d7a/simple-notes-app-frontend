@@ -1,0 +1,21 @@
+<div
+  (click)="navigateToNote()"
+  [class.opacity-50]="!note.id"
+  class="card w-[calc(79vw/3)] h-32 bg-base-300 shadow-xl cursor-pointer"
+>
+  <div class="card-body items-center">
+    <div class="card-actions w-full justify-between">
+      <h1 class="card-title flex-1 text-center justify-center">
+        {{ (note.title | truncate) || "" }}
+      </h1>
+      <button
+        [disabled]="!note.id"
+        (click)="deleteNote()"
+        class="btn btn-sm text-xl text-right"
+      >
+        <ng-icon name="faTrashCan"></ng-icon>
+      </button>
+    </div>
+    <p class="self-start">{{ (note.body | truncate) || "" }}</p>
+  </div>
+</div>
