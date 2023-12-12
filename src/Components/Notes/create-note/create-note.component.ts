@@ -35,6 +35,7 @@ export class CreateNoteComponent {
 
   onSubmit() {
     this.notesService.createNote({
+      createdAt: new Date(),
       title: this.noteForm.value.title,
       body: this.noteForm.value.body,
     } as INote);

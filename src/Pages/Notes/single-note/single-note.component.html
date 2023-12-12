@@ -43,7 +43,9 @@
 
     }@else {
     <h2 class="font-bold p-2 text-4xl">{{ note.title?.trim() }}</h2>
-
+    <p class="text-sm p-2 opacity-60">
+      {{ note.createdAt | date : "mediumDate" }}
+    </p>
     <p class="text-lg p-2">{{ note.body?.trim() }}</p>
     }
   </div>

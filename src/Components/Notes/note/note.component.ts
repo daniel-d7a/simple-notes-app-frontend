@@ -5,11 +5,12 @@ import { TruncatePipe } from "../../../Pipes/truncate.pipe";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import { faTrashCan } from "@ng-icons/font-awesome/regular";
 import { Router } from "@angular/router";
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "note",
   standalone: true,
-  imports: [TruncatePipe, NgIconComponent],
+  imports: [TruncatePipe, NgIconComponent, DatePipe],
   templateUrl: "./note.component.html",
   styleUrl: "./note.component.css",
   viewProviders: [provideIcons({ faTrashCan })],

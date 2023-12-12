@@ -35,9 +35,11 @@ export class NotesHomeComponent implements OnDestroy {
   isNotesLoading$ = this.notesService.isLoading$;
 
   constructor() {
-    this.notesSubscription = this.notesService.data.subscribe(
-      (n) => (this.notes = n)
-    );
+    this.notesSubscription = this.notesService.data.subscribe((n) => {
+      this.notes = n;
+      console.log(n);
+      console.log(this.notes);
+    });
   }
 
   ngOnDestroy(): void {

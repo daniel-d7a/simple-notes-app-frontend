@@ -1,13 +1,18 @@
 <div
   (click)="navigateToNote()"
   [class.opacity-50]="!note.id"
-  class="card w-[calc(79vw/3)] h-32 bg-base-300 shadow-xl cursor-pointer"
+  class="card w-[calc(79vw/3)] h-40 bg-base-300 shadow-xl cursor-pointer"
 >
   <div class="card-body items-center">
     <div class="card-actions w-full justify-between">
-      <h1 class="card-title flex-1 text-center justify-center">
-        {{ (note.title | truncate) || "" }}
-      </h1>
+      <div class="flex-1">
+        <h2 class="card-title">
+          {{ (note.title | truncate : 20) || "" }}
+        </h2>
+        <p class="text-sm opacity-60 mt-1">
+          {{ note.createdAt | date : "mediumDate" }}
+        </p>
+      </div>
       <button
         [disabled]="!note.id"
         (click)="deleteNote()"
@@ -16,6 +21,6 @@
         <ng-icon name="faTrashCan"></ng-icon>
       </button>
     </div>
-    <p class="self-start">{{ (note.body | truncate) || "" }}</p>
+    <p class="self-start">{{ (note.body | truncate : 50) || "" }}</p>
   </div>
 </div>
