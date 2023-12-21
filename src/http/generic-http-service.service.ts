@@ -2,18 +2,20 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { base_url } from "../constants/base_url";
 import {
+  Observable,
   ReplaySubject,
   catchError,
   delay,
   distinctUntilChanged,
   finalize,
+  map,
   throwError,
 } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class GenericHttpServiceService {
+export class GenericHttpService {
   private http = inject(HttpClient);
   private loadingSubject = new ReplaySubject<boolean>(1);
   private DELAY = 1000;
@@ -40,11 +42,19 @@ export class GenericHttpServiceService {
       finalize(() => this.loadingSubject.next(false))
     );
   }
-
-  post<T>(url: string, body: T) {
+  post<T>(url: string, body: T): Observable<T>;
+  post<T, R>(url: string, body: T): Observable<R>;
+  post<T, U>(url: string, body: T): Observable<U | T> {
     this.loadingSubject.next(true);
     return this.http.post<T>(base_url + url, body).pipe(
       delay(this.DELAY),
+      map((response: unknown) => {
+        if (url.startsWith("auth")) {
+          return response as U; // Transform the response to type R
+        } else {
+          return response as T; // Keep the response as type T
+        }
+      }),
       catchError(this.handleError),
       finalize(() => this.loadingSubject.next(false))
     );

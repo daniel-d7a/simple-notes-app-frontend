@@ -1,4 +1,4 @@
-<h1 class="text-center text-4xl font-bold my-4">Notes</h1>
+<app-header title="Notes" />
 
 <create-note />
 
@@ -8,7 +8,7 @@
 </div>
 } @else {
 
-<div class="flex flex-wrap justify-start items-stretch gap-2 w-full">
+<div class="grid grid-cols-3 gap-2 w-full">
   @for(note of notes ; track note.id){
   <note [note]="note" />
   }@empty{

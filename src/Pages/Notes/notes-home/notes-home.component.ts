@@ -13,6 +13,7 @@ import {
 import { LoadingSpinnerComponent } from "../../../Shared/LoadinSpinner/loading-spinner/loading-spinner.component";
 import { SmallLoadingSpinnerComponent } from "../../../Shared/LoadinSpinner/small-loading-spinner/small-loading-spinner.component";
 import { Subscription } from "rxjs";
+import { HeaderComponent } from "../../../Shared/Typography/header/header.component";
 
 @Component({
   selector: "app-notes-home",
@@ -24,6 +25,7 @@ import { Subscription } from "rxjs";
     JsonPipe,
     LoadingSpinnerComponent,
     SmallLoadingSpinnerComponent,
+    HeaderComponent,
   ],
   templateUrl: "./notes-home.component.html",
   styleUrl: "./notes-home.component.css",

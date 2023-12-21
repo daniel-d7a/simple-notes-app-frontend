@@ -11,7 +11,6 @@ import { INote } from "../../../Models/Note/INote";
 import { NameOrTitleValidator } from "./create-note.validator";
 import { JsonPipe } from "@angular/common";
 import { SmallLoadingSpinnerComponent } from "../../../Shared/LoadinSpinner/small-loading-spinner/small-loading-spinner.component";
-import { ToastService } from "../../../Services/Toast/toast.service";
 
 @Component({
   selector: "create-note",
@@ -34,13 +33,13 @@ export class CreateNoteComponent {
   );
 
   onSubmit() {
+    this.isLoading = true;
     this.notesService.createNote({
       createdAt: new Date(),
       title: this.noteForm.value.title,
       body: this.noteForm.value.body,
     } as INote);
-    this.formClicked = false;
-    this.noteForm.reset();
+    this.resetForm();
   }
 
   expandForm() {
@@ -49,5 +48,11 @@ export class CreateNoteComponent {
   shrinkForm(event: Event) {
     event.stopPropagation();
     this.formClicked = false;
+  }
+
+  resetForm() {
+    this.formClicked = false;
+    this.isLoading = false;
+    this.noteForm.reset();
   }
 }

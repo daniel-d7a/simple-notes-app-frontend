@@ -1,5 +1,5 @@
 import { Injectable, OnInit, inject } from "@angular/core";
-import { GenericHttpServiceService } from "../generic-http-service.service";
+import { GenericHttpService } from "../generic-http-service.service";
 import { INote } from "../../Models/Note/INote";
 import { ToastService } from "../../Services/Toast/toast.service";
 import { BehaviorSubject, finalize } from "rxjs";
@@ -8,7 +8,7 @@ import { BehaviorSubject, finalize } from "rxjs";
   providedIn: "root",
 })
 export class NotesService {
-  private http = inject(GenericHttpServiceService);
+  private http = inject(GenericHttpService);
   private toast = inject(ToastService);
   private endpoint = "Notes";
 

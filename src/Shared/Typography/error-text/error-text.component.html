@@ -1,0 +1,9 @@
+@if(isVisible){ 
+  @if(isArray()){
+    @for( msg of errorMessage; track msg){
+      <p class="text-start text-red-600">{{ msg }}</p>
+    } 
+  }@else {
+      <p class="text-start text-red-600">{{ errorMessage }}</p>
+  } 
+}
