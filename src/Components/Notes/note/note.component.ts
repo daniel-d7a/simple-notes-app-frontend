@@ -1,4 +1,3 @@
-import { NotesService } from "./../../../http/Notes/notes.service";
 import { INote } from "../../../Models/Note/INote";
 import { Component, Input, inject } from "@angular/core";
 import { TruncatePipe } from "../../../Pipes/truncate.pipe";
@@ -6,6 +5,7 @@ import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import { faTrashCan } from "@ng-icons/font-awesome/regular";
 import { Router } from "@angular/router";
 import { DatePipe } from "@angular/common";
+import { NotesService } from "../../../Services/http/Notes/notes.service";
 
 @Component({
   selector: "note",

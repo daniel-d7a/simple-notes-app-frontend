@@ -1,15 +1,17 @@
-import { AfterViewChecked, Component, OnChanges, inject } from "@angular/core";
-import { HeaderComponent } from "../../../../Shared/Typography/header/header.component";
+import { passwordRules } from "./../../../constants/passwordRules";
+import { Component, inject } from "@angular/core";
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { AuthService } from "../../../../http/Auth/auth.service";
 import { JsonPipe } from "@angular/common";
-import { ErrorTextComponent } from "../../../../Shared/Typography/error-text/error-text.component";
-import { SmallLoadingSpinnerComponent } from "../../../../Shared/LoadinSpinner/small-loading-spinner/small-loading-spinner.component";
+import { HeaderComponent } from "../../../Shared/Typography/header/header.component";
+import { AuthService } from "../../../Services/http/Auth/auth.service";
+import { ErrorTextComponent } from "../../../Shared/Typography/error-text/error-text.component";
+import { SmallLoadingSpinnerComponent } from "../../../Shared/LoadinSpinner/small-loading-spinner/small-loading-spinner.component";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-signup",
@@ -20,20 +22,16 @@ import { SmallLoadingSpinnerComponent } from "../../../../Shared/LoadinSpinner/s
     JsonPipe,
     ErrorTextComponent,
     SmallLoadingSpinnerComponent,
+    RouterLink,
   ],
   templateUrl: "./signup.component.html",
   styleUrl: "./signup.component.css",
 })
 export class SignupComponent {
-  authService = inject(AuthService);
+  private authService = inject(AuthService);
+  signupPasswordRules = passwordRules;
 
   isLoading = this.authService.isLoading;
-
-  passwordRules = [
-    "must have at least one uppercase",
-    "must have at least one lowercase",
-    "must have at least one special character",
-  ];
 
   signupForm = new FormGroup({
     email: new FormControl<string>("", {
@@ -66,6 +64,5 @@ export class SignupComponent {
       this.signupForm.value.username!,
       this.signupForm.value.password!
     );
-    this.signupForm.reset();
   }
 }

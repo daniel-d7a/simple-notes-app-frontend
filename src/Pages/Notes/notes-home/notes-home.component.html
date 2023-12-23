@@ -1,15 +1,14 @@
-<app-header title="Notes" />
-
+<app-top-header />
 <create-note />
 
-@if(isNotesLoading$ | async){
+@if(isNotesLoading()){
 <div class="flex justify-center w-full mt-56">
   <loading-spinner />
 </div>
 } @else {
 
 <div class="grid grid-cols-3 gap-2 w-full">
-  @for(note of notes ; track note.id){
+  @for(note of notes() ; track note.id){
   <note [note]="note" />
   }@empty{
   <p class="text-4xl text-center w-full mt-20 capitalize">no notes yet</p>

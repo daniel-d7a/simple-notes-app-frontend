@@ -1,0 +1,12 @@
+<nav class="flex justify-center items-center">
+  <app-header class="ml-24 flex-1" title="Notes" />
+  <div class="flex gap-4 font-bold">
+    <p>
+      Hello,
+      <span class="font-normal">
+        {{ user.user.username }}
+      </span>
+    </p>
+    <p (click)="logout()" class="cursor-pointer underline">Logout</p>
+  </div>
+</nav>

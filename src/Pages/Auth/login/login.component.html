@@ -1,0 +1,43 @@
+<app-header title="Login" />
+
+<form
+  (ngSubmit)="onSubmit()"
+  [formGroup]="loginForm"
+  class="flex flex-col gap-4 w-2/3 m-auto mt-10 p-8"
+>
+  <input
+    formControlName="email"
+    type="text"
+    placeholder="Email"
+    class="input rounded-none w-full max-w-5xl text-2xl border-b-2 focus:outline-none focus:border-transparent focus:border-b-2 focus:border-b-slate-500"
+  />
+  <error-text [form]="loginForm" controlName="email" />
+
+  <input
+    formControlName="password"
+    type="password"
+    placeholder="Password"
+    class="input rounded-none w-full max-w-5xl text-2xl border-b-2 focus:outline-none focus:border-transparent focus:border-b-2 focus:border-b-slate-500"
+  />
+  <error-text
+    [form]="loginForm"
+    controlName="password"
+    [rules]="loginPasswordRules"
+  />
+
+  <div>
+    <button
+      [disabled]="loginForm.invalid || isLoading()"
+      type="submit"
+      class="btn w-full mt-8"
+    >
+      @if(isLoading()){ <small-loading-spinner /> }@else{ Login }
+    </button>
+  </div>
+  <p>
+    Don't have an account?
+    <a class="text-blue-500 underline cursor-pointer" [routerLink]="['/register']"
+      >Signup</a
+    >
+  </p>
+</form>

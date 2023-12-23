@@ -1,6 +1,5 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, ElementRef, ViewChild, inject } from "@angular/core";
 import { INote } from "../../../Models/Note/INote";
-import { NotesService } from "../../../http/Notes/notes.service";
 import { ActivatedRoute } from "@angular/router";
 import { NgIcon, provideIcons } from "@ng-icons/core";
 import { faSolidArrowLeft } from "@ng-icons/font-awesome/solid";
@@ -9,8 +8,7 @@ import { DatePipe, Location } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { NameOrTitleValidator } from "../../../Components/Notes/create-note/create-note.validator";
 import { LoadingSpinnerComponent } from "../../../Shared/LoadinSpinner/loading-spinner/loading-spinner.component";
-import { SmallLoadingSpinnerComponent } from "../../../Shared/LoadinSpinner/small-loading-spinner/small-loading-spinner.component";
-
+import { NotesService } from "../../../Services/http/Notes/notes.service";
 @Component({
   selector: "app-single-note",
   standalone: true,
@@ -23,27 +21,18 @@ export class SingleNoteComponent {
   private notesService = inject(NotesService);
   private activatedRoute = inject(ActivatedRoute);
   private location = inject(Location);
-  note: INote | undefined;
+  note;
   noteForm: FormGroup;
   isEditing = false;
 
   constructor() {
     const id = this.activatedRoute.snapshot.paramMap.get("id");
-    this.notesService.getNote(Number(id)).subscribe({
-      next: (note) => {
-        this.note = note;
-        this.noteForm?.get("title")?.setValue(note?.title);
-        this.noteForm?.get("body")?.setValue(note?.body);
-      },
-    });
+    this.note = this.notesService.getNote(Number(id));
+
     this.noteForm = new FormGroup(
       {
-        title: new FormControl<string | undefined>(this.note?.title || "", {
-          nonNullable: true,
-        }),
-        body: new FormControl<string | undefined>(this.note?.body || "", {
-          nonNullable: true,
-        }),
+        title: new FormControl<string>("", { nonNullable: true }),
+        body: new FormControl<string>("", { nonNullable: true }),
       },
       { validators: NameOrTitleValidator() }
     );
@@ -53,7 +42,7 @@ export class SingleNoteComponent {
     this.notesService.updateNote({
       title: this.noteForm.value.title,
       body: this.noteForm.value.body,
-      id: this.note?.id || 0,
+      id: this.note()?.id || 0,
     } as INote);
     this.isEditing = false;
   }
@@ -61,5 +50,16 @@ export class SingleNoteComponent {
   goBack() {
     this.notesService.resetNote();
     this.location.back();
+  }
+
+  editNote() {
+    this.isEditing = !this.isEditing;
+    if (this.isEditing) {
+      this.noteForm.setValue({
+        title: this.note()?.title || "",
+        body: this.note()?.body || "",
+      });
+    }
+    console.log("note", this.note());
   }
 }

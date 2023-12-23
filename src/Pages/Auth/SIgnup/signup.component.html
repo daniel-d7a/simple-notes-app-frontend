@@ -3,7 +3,7 @@
 <form
   (ngSubmit)="onSubmit()"
   [formGroup]="signupForm"
-  class="flex flex-col gap-4 w-2/3 m-auto mt-10 p-8 border border-slate-500 rounded"
+  class="flex flex-col gap-4 w-2/3 m-auto mt-10 p-8"
 >
   <input
     formControlName="email"
@@ -30,7 +30,7 @@
   <error-text
     [form]="signupForm"
     controlName="password"
-    [rules]="passwordRules"
+    [rules]="signupPasswordRules"
   />
 
   <div>
@@ -42,4 +42,10 @@
       @if(isLoading()){ <small-loading-spinner /> }@else{ Signup }
     </button>
   </div>
+  <p>
+    Already have an account?
+    <a class="text-blue-500 underline cursor-pointer" [routerLink]="['/login']"
+      >Login</a
+    >
+  </p>
 </form>

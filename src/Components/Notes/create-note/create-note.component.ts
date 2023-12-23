@@ -1,4 +1,3 @@
-import { NotesService } from "./../../../http/Notes/notes.service";
 import {
   AfterViewChecked,
   Component,
@@ -11,6 +10,7 @@ import { INote } from "../../../Models/Note/INote";
 import { NameOrTitleValidator } from "./create-note.validator";
 import { JsonPipe } from "@angular/common";
 import { SmallLoadingSpinnerComponent } from "../../../Shared/LoadinSpinner/small-loading-spinner/small-loading-spinner.component";
+import { NotesService } from "../../../Services/http/Notes/notes.service";
 
 @Component({
   selector: "create-note",
