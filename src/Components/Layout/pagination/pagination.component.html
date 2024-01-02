@@ -1,0 +1,18 @@
+<div class="join mx-auto">
+  @if(page > 1){
+
+  <button (click)="onClicks.decrement()" class="join-item btn">«</button>
+  } @for(pageElement of paginationElements; track pageElement){
+  <button
+    (click)="setPage(pageElement)"
+    [class.btn-active]="pageElement === page"
+    class="join-item btn"
+    [disabled]="pageElement === '...'"
+  >
+    {{ pageElement }}
+  </button>
+  } @if(page < lastPage){
+
+  <button (click)="onClicks.increment()" class="join-item btn">»</button>
+  }
+</div>

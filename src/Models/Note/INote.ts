@@ -4,4 +4,6 @@ export type INote = {
   body?: string;
   createdAt: Date;
   updatedAt: Date;
+  userId: string;
+  user?: any;
 };

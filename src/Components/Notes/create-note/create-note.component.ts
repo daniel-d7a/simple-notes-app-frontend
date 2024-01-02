@@ -11,6 +11,7 @@ import { NameOrTitleValidator } from "./create-note.validator";
 import { JsonPipe } from "@angular/common";
 import { SmallLoadingSpinnerComponent } from "../../../Shared/LoadinSpinner/small-loading-spinner/small-loading-spinner.component";
 import { NotesService } from "../../../Services/http/Notes/notes.service";
+import { CookieService } from "../../../Services/http/Auth/cookie.service";
 
 @Component({
   selector: "create-note",
@@ -21,6 +22,7 @@ import { NotesService } from "../../../Services/http/Notes/notes.service";
 })
 export class CreateNoteComponent {
   private notesService = inject(NotesService);
+  private cookieService = inject(CookieService);
   isLoading: boolean = false;
   formClicked = false;
 
@@ -35,9 +37,9 @@ export class CreateNoteComponent {
   onSubmit() {
     this.isLoading = true;
     this.notesService.createNote({
-      createdAt: new Date(),
       title: this.noteForm.value.title,
       body: this.noteForm.value.body,
+      userId: this.cookieService.getData()?.user?.id,
     } as INote);
     this.resetForm();
   }

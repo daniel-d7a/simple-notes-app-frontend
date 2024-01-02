@@ -19,13 +19,22 @@ export class GenericHttpService {
   private http = inject(HttpClient);
   private DELAY = 1000;
   isLoading$ = signal(false);
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error: any) {
     let errorMessage: string;
 
     if (error.url?.includes("auth"))
       return throwError(
         () => new Error((error.error as IAuthResponse).message)
       );
+
+    error = error.error;
+    const msg = error.title || error.error || error.message;
+
+    if (msg) {
+      errorMessage = msg;
+      console.log(error);
+      return throwError(() => new Error(errorMessage));
+    }
 
     switch (error.status) {
       case 500:
@@ -52,7 +61,6 @@ export class GenericHttpService {
     }
 
     console.log(error);
-
     return throwError(() => new Error(errorMessage));
   }
 
@@ -64,9 +72,11 @@ export class GenericHttpService {
     );
   };
 
-  get<T>(url: string) {
+  get<T>(url: string, options?: any): Observable<T> {
     this.isLoading$.set(true);
-    return this.http.get<T>(base_url + url).pipe(this.defaultPipes());
+    return this.http
+      .get<T>(base_url + url, options)
+      .pipe(this.defaultPipes()) as Observable<T>;
   }
 
   post<T>(url: string, body: T): Observable<T>;
@@ -79,13 +89,17 @@ export class GenericHttpService {
     );
   }
 
-  delete<T>(url: string) {
+  delete<T>(url: string): Observable<T> {
     this.isLoading$.set(true);
-    return this.http.delete<T>(base_url + url).pipe(this.defaultPipes());
+    return this.http
+      .delete<T>(base_url + url)
+      .pipe(this.defaultPipes()) as Observable<T>;
   }
 
-  put<T>(url: string, body: T) {
+  put<T>(url: string, body: T): Observable<T> {
     this.isLoading$.set(true);
-    return this.http.put<T>(base_url + url, body).pipe(this.defaultPipes());
+    return this.http
+      .put<T>(base_url + url, body)
+      .pipe(this.defaultPipes()) as Observable<T>;
   }
 }

@@ -9,6 +9,7 @@ import { HeaderComponent } from "../../../Shared/Typography/header/header.compon
 import { CookieService } from "../../../Services/http/Auth/cookie.service";
 import { NotesService } from "../../../Services/http/Notes/notes.service";
 import { TopHeaderComponent } from "../../../Components/Layout/top-header/top-header.component";
+import { PaginationComponent } from "../../../Components/Layout/pagination/pagination.component";
 
 @Component({
   selector: "app-notes-home",
@@ -22,6 +23,7 @@ import { TopHeaderComponent } from "../../../Components/Layout/top-header/top-he
     SmallLoadingSpinnerComponent,
     HeaderComponent,
     TopHeaderComponent,
+    PaginationComponent,
   ],
   templateUrl: "./notes-home.component.html",
   styleUrl: "./notes-home.component.css",
@@ -29,12 +31,22 @@ import { TopHeaderComponent } from "../../../Components/Layout/top-header/top-he
 export class NotesHomeComponent {
   private notesService = inject(NotesService);
   notes;
+  pagination = this.notesService.pagination;
   isNotesLoading = this.notesService.isLoading;
 
-  private cookieService = inject(CookieService);
-
   constructor() {
-    console.log(this.cookieService.getData());
     this.notes = this.notesService.data;
   }
+
+  onClicks = {
+    increment: () => {
+      this.notesService.incrementPage();
+    },
+    decrement: () => {
+      this.notesService.decrementPage();
+    },
+    set: (page: number) => {
+      this.notesService.setPage(page);
+    },
+  };
 }

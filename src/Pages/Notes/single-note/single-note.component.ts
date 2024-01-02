@@ -9,6 +9,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { NameOrTitleValidator } from "../../../Components/Notes/create-note/create-note.validator";
 import { LoadingSpinnerComponent } from "../../../Shared/LoadinSpinner/loading-spinner/loading-spinner.component";
 import { NotesService } from "../../../Services/http/Notes/notes.service";
+import { CookieService } from "../../../Services/http/Auth/cookie.service";
 @Component({
   selector: "app-single-note",
   standalone: true,
@@ -20,6 +21,7 @@ import { NotesService } from "../../../Services/http/Notes/notes.service";
 export class SingleNoteComponent {
   private notesService = inject(NotesService);
   private activatedRoute = inject(ActivatedRoute);
+  private cookieService = inject(CookieService);
   private location = inject(Location);
   note;
   noteForm: FormGroup;
@@ -40,6 +42,7 @@ export class SingleNoteComponent {
 
   onSubmit() {
     this.notesService.updateNote({
+      userId: this.cookieService.getData()?.user?.id,
       title: this.noteForm.value.title,
       body: this.noteForm.value.body,
       id: this.note()?.id || 0,
@@ -60,6 +63,5 @@ export class SingleNoteComponent {
         body: this.note()?.body || "",
       });
     }
-    console.log("note", this.note());
   }
 }

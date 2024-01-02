@@ -21,8 +21,6 @@ export class NoteComponent {
   @Input() note!: INote;
 
   navigateToNote() {
-    console.log(`note ${this.note.id} clicked`);
-
     this.router.navigate(["notes", this.note.id]);
   }
 
