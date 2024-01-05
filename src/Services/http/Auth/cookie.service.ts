@@ -1,13 +1,16 @@
 import { Injectable, inject } from "@angular/core";
 import { CookieService as ngxCookie } from "ngx-cookie-service";
 import { IAuthResponse } from "./Types/auth.types";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class CookieService {
   private cookieService = inject(ngxCookie);
-  private tokenName = "notesAppJwtToken";
+  private tokenName = environment.production
+    ? "notesAppJwtProdToken"
+    : "notesAppJwtToken";
 
   setData(userData: IAuthResponse): void {
     this.cookieService.set(this.tokenName, JSON.stringify(userData), {
