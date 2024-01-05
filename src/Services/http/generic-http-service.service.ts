@@ -9,13 +9,14 @@ import {
   pipe,
   throwError,
 } from "rxjs";
-import { base_url } from "../../constants/base_url";
 import { IAuthResponse } from "./Auth/Types/auth.types";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class GenericHttpService {
+  base_url = environment.apiUrl;
   private http = inject(HttpClient);
   private DELAY = 1000;
   isLoading$ = signal(false);
@@ -75,7 +76,7 @@ export class GenericHttpService {
   get<T>(url: string, options?: any): Observable<T> {
     this.isLoading$.set(true);
     return this.http
-      .get<T>(base_url + url, options)
+      .get<T>(this.base_url + url, options)
       .pipe(this.defaultPipes()) as Observable<T>;
   }
 
@@ -83,7 +84,7 @@ export class GenericHttpService {
   post<T, U>(url: string, body: T): Observable<U>;
   post<T, U>(url: string, body: T): Observable<T | U> {
     this.isLoading$.set(true);
-    return this.http.post<T>(base_url + url, body).pipe(
+    return this.http.post<T>(this.base_url + url, body).pipe(
       this.defaultPipes(),
       map((res: unknown) => (url.startsWith("auth") ? (res as U) : (res as T)))
     );
@@ -92,14 +93,14 @@ export class GenericHttpService {
   delete<T>(url: string): Observable<T> {
     this.isLoading$.set(true);
     return this.http
-      .delete<T>(base_url + url)
+      .delete<T>(this.base_url + url)
       .pipe(this.defaultPipes()) as Observable<T>;
   }
 
   put<T>(url: string, body: T): Observable<T> {
     this.isLoading$.set(true);
     return this.http
-      .put<T>(base_url + url, body)
+      .put<T>(this.base_url + url, body)
       .pipe(this.defaultPipes()) as Observable<T>;
   }
 }
