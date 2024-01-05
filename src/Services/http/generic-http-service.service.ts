@@ -29,7 +29,7 @@ export class GenericHttpService {
       );
 
     error = error.error;
-    const msg = error.title || error.error || error.message;
+    const msg = error?.title || error?.error || error?.message;
 
     if (msg) {
       errorMessage = msg;
