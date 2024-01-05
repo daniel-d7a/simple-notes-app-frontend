@@ -18,7 +18,7 @@ import { environment } from "../../environments/environment";
 export class GenericHttpService {
   base_url = environment.apiUrl;
   private http = inject(HttpClient);
-  private DELAY = 1000;
+  private DELAY = environment.production ? 0 : 1000;
   isLoading$ = signal(false);
   private handleError(error: any) {
     let errorMessage: string;
