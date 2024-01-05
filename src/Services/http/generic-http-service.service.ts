@@ -37,7 +37,7 @@ export class GenericHttpService {
       return throwError(() => new Error(errorMessage));
     }
 
-    switch (error.status) {
+    switch (error?.status) {
       case 500:
         errorMessage = "Internal Server Error, please try again later";
         break;

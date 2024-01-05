@@ -1,7 +1,7 @@
 import { INote } from "./../../../Models/Note/INote";
-import { Injectable, OnInit, inject, signal } from "@angular/core";
+import { Injectable, inject, signal } from "@angular/core";
 import { GenericHttpService } from "../generic-http-service.service";
-import { finalize, tap } from "rxjs";
+import { finalize } from "rxjs";
 import { ToastService } from "../../Toast/toast.service";
 import { NotesResponse } from "./Types/Notes.Types";
 import { IGenericResponse } from "../../../Models/Base/igeneric-response";
