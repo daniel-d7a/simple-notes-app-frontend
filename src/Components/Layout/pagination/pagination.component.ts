@@ -1,4 +1,6 @@
 import { Component, Input, OnChanges } from "@angular/core";
+import { BaseService } from "../../../Services/http/base.service";
+import { IBaseItem } from "../../../Models/Base/IBaseItem";
 
 @Component({
   selector: "pagination",
@@ -30,11 +32,9 @@ export class PaginationComponent implements OnChanges {
     } else if (pageCount > 4) {
       if (this.page <= 3) {
         return [1, 2, 3, "...", pageCount];
-      }
-      else if (this.page >= pageCount - 2) {
+      } else if (this.page >= pageCount - 2) {
         return [1, "...", pageCount - 2, pageCount - 1, pageCount];
-      }
-      else if (this.page > 3) {
+      } else if (this.page > 3) {
         return [
           1,
           "...",

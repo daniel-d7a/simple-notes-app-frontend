@@ -1,0 +1,57 @@
+<div
+  (click)="navigateToTodo()"
+  [class.opacity-50]="!todo.id"
+  class="card w-full h-52 bg-base-300 shadow-xl cursor-pointer"
+>
+  <div class="card-body items-center">
+    <div class="card-actions w-full justify-between">
+      <div class="flex-1">
+        <h2
+          [ngClass]="{ 'line-through': todo.isDone, 'opacity-60': todo.isDone }"
+          class="card-title line-through opacity-60"
+        >
+          {{ (todo.title | truncate : 20) || "" }}
+        </h2>
+        <p class="text-sm opacity-60 mt-1">
+          {{ todo.createdAt | date : "mediumDate" }}
+        </p>
+      </div>
+      <button
+        [disabled]="!todo.id"
+        (click)="deleteTodo()"
+        class="btn btn-sm text-xl text-right"
+      >
+        <ng-icon (click)="deleteTodo()" name="faTrashCan"></ng-icon>
+      </button>
+    </div>
+    <div class="self-start">
+      @for(entry of visibleEntries() ; track entry.id){
+      <div class="form-control">
+        <label
+          [ngClass]="{
+            'line-through': entry.isDone,
+            'opacity-60': entry.isDone
+          }"
+          class="label cursor-pointer self-start"
+        >
+          <input
+            type="checkbox"
+            [checked]="entry.isDone"
+            class="checkbox checkbox-sm"
+          />
+          <span class="label-text ml-2">{{
+            (entry.text | truncate : 50) || ""
+          }}</span>
+        </label>
+      </div>
+      }@empty {
+      <p class="self-center">---- Empty ----</p>
+      } @if(visibleEntries().length < todo.entries.length){
+      <p class="p-1">+ {{ todo.entries.length - 2 }} more...</p>
+
+      }
+      <!-- TODO:add a nice image for empty todos -->
+      <!-- TODO:add a nice image for all done todos -->
+    </div>
+  </div>
+</div>

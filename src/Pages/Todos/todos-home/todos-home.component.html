@@ -1,0 +1,26 @@
+<app-top-header title="Todos" />
+
+<create-todo />
+
+@if(isTodosLoading()){
+<div class="flex justify-center w-full mt-56">
+  <loading-spinner />
+</div>
+} @else {
+<div
+  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-4 gap-4 w-full mb-4"
+>
+  @for(todo of todos().data ; track todo.id){
+  <todo [todo]="todo" />
+  }@empty{
+  <p class="text-4xl text-center w-full mt-20 capitalize">no todos yet</p>
+  }
+</div>
+<div class="flex justify-center">
+  <pagination
+    [onClicks]="onClicks"
+    [page]="pagination().page"
+    [lastPage]="pagination().lastPage"
+  />
+</div>
+}

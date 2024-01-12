@@ -1,9 +1,6 @@
-export type INote = {
-  id: number;
+import { IBaseItem } from "../Base/IBaseItem";
+
+export type INote = IBaseItem & {
   title?: string;
   body?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  userId: string;
-  user?: any;
 };

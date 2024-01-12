@@ -4,14 +4,14 @@
   [formGroup]="noteForm"
   [class.h-48]="formClicked"
   [class.h-8]="!formClicked"
-  class="mt-4 mb-6 flex flex-col justify-start items-center transition-all duration-300 h-8 overflow-hidden lg:px-0 px-4"
+  class="mt-4 mb-6 mx-auto max-w-5xl flex flex-col justify-start items-center transition-all duration-300 h-8 overflow-hidden lg:px-0 px-4"
   style="transition: height 300ms ease-out"
 >
   <input
     formControlName="title"
     type="text"
     placeholder="What is on your mind?"
-    class="input rounded-none w-full max-w-5xl text-2xl border-b-2 focus:outline-none focus:border-transparent focus:border-b-2 focus:border-b-slate-500"
+    class="input rounded-none w-full text-2xl border-b-2 focus:outline-none focus:border-transparent focus:border-b-2 focus:border-b-slate-500"
   />
   <textarea
     formControlName="body"
@@ -23,10 +23,10 @@
         background: transparent;
       }
     "
-    class="textarea resize-none textarea-lg w-full max-w-5xl focus:outline-none focus:border-transparent p-4"
+    class="textarea resize-none textarea-lg w-full focus:outline-none focus:border-transparent p-4"
   ></textarea>
 
-  <div class="self-end gap-2">
+  <div class="self-end gap-2 px-4">
     <button
       [disabled]="noteForm.getError('nameOrTitle') || isLoading"
       type="submit"

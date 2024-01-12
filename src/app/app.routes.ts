@@ -4,12 +4,33 @@ import { SingleNoteComponent } from "../Pages/Notes/single-note/single-note.comp
 import { SignupComponent } from "../Pages/Auth/SIgnup/signup.component";
 import { LoginComponent } from "../Pages/Auth/login/login.component";
 import { loggedInGuard } from "../Guards/auth/logged-in.guard";
+import { HomePageComponent } from "../Pages/home-page/home-page.component";
+import { TodosHomeComponent } from "../Pages/Todos/todos-home/todos-home.component";
+import { SingleTodoComponent } from "../Pages/Todos/single-todo/single-todo.component";
 
 export const routes: Routes = [
   {
     path: "",
-    component: NotesHomeComponent,
+    component: HomePageComponent,
     canActivate: [loggedInGuard],
+    children: [
+      {
+        path: "",
+        component: NotesHomeComponent,
+      },
+      {
+        path: "notes/:id",
+        component: SingleNoteComponent,
+      },
+      {
+        path: "todos",
+        component: TodosHomeComponent,
+      },
+      {
+        path: "todos/:id",
+        component: SingleTodoComponent,
+      },
+    ],
   },
   {
     path: "register",
@@ -20,8 +41,7 @@ export const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: "notes/:id",
-    component: SingleNoteComponent,
-    canActivate: [loggedInGuard],
+    path: "**",
+    redirectTo: "",
   },
 ];

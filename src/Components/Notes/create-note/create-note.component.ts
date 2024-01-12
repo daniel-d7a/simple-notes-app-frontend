@@ -1,10 +1,4 @@
-import {
-  AfterViewChecked,
-  Component,
-  EventEmitter,
-  Output,
-  inject,
-} from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { INote } from "../../../Models/Note/INote";
 import { NameOrTitleValidator } from "./create-note.validator";

@@ -1,8 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-} from "@angular/core";
+import { AfterViewInit, Component, Input } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { ErrorMap } from "../../../constants/ErrorMaps/ErrorMap";
 
@@ -36,6 +32,7 @@ export class ErrorTextComponent implements AfterViewInit {
 
   getErrors() {
     const errors = this.form.get(this.controlName)?.errors;
+
     if (Object.keys(errors || {}).length === 0) {
       this.isVisible = false;
     } else if (this.form.get(this.controlName)?.dirty) {

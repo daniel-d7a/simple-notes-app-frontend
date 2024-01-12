@@ -1,4 +1,4 @@
-<app-top-header />
+<app-top-header title="Notes" />
 <create-note />
 
 @if(isNotesLoading()){
@@ -8,7 +8,7 @@
 } @else {
 
 <div
-  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-4 lg:p-0 gap-4 w-full mb-4"
+  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-4 gap-4 w-full mb-4"
 >
   @for(note of notes().data ; track note.id){
   <note [note]="note" />

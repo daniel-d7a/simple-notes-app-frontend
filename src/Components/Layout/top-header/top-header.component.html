@@ -1,51 +1,29 @@
-<!-- <nav class="flex justify-center items-center px-4 lg:px-0">
-  <app-header class="ml-20 md:ml-36 lg:ml-24 flex-1" title="Notes" />
-  <div class="flex gap-4 font-bold">
-    <p class="hidden md:block">
-      Hello,
-      <span class="font-normal">
-        {{ user.user.username }}
-      </span>
-    </p>
-    <p (click)="logout()" class="cursor-pointer underline">Logout</p>
-  </div>
-</nav> -->
-<div class="navbar bg-base-100">
-  <div class="flex-none">
-    <button class="btn btn-square btn-ghost">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        class="inline-block w-5 h-5 stroke-current"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M4 6h16M4 12h16M4 18h16"
-        ></path>
-      </svg>
-    </button>
-  </div>
-  <div class="flex-1">
-    <app-header class="ml-4" title="Notes" />
+<div class="navbar bg-base-100 justify-center items-center">
+  <div class="flex-1 ml-[40vw]">
+    <app-header [title]="title" />
   </div>
   <div class="flex-none">
-    <button class="btn btn-square btn-ghost">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        class="inline-block w-5 h-5 stroke-current"
+    <div class="dropdown dropdown-bottom dropdown-end">
+      <div
+        tabindex="0"
+        role="button"
+        class="btn w-12 h-12 rounded-3xl bg-base-300 text-lg"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-        ></path>
-      </svg>
-    </button>
+        {{ user.user.username[0].toUpperCase() }}
+      </div>
+      <div
+        tabindex="0"
+        class="dropdown-content rounded-box flex justify-center items-center z-[1] menu p-2 shadow bg-base-200 w-max"
+      >
+        <p class="font-bold mx-2 my-4">Hi, {{ user.user.username }}</p>
+        <button
+          tabindex="0"
+          (click)="logout()"
+          class="btn rounded-3xl bg-base-300 text-lg border-2 border-base-100 w-full"
+        >
+          logout
+        </button>
+      </div>
+    </div>
   </div>
 </div>

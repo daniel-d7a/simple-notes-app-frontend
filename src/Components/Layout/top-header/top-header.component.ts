@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, Input, inject } from "@angular/core";
 import { HeaderComponent } from "../../../Shared/Typography/header/header.component";
 import { IAuthResponse } from "../../../Services/http/Auth/Types/auth.types";
 import { CookieService } from "../../../Services/http/Auth/cookie.service";
@@ -15,6 +15,7 @@ export class TopHeaderComponent {
   private cookieService = inject(CookieService);
   private router = inject(Router);
 
+  @Input({ required: true }) title!: string;
   user!: IAuthResponse;
 
   constructor() {

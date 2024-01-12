@@ -8,6 +8,7 @@ import { IGenericResponse } from "../../../Models/Base/igeneric-response";
 import { IPaginatedResponse } from "../../../Models/Base/ipaginated-response";
 import { HttpParams } from "@angular/common/http";
 import { IPaginationData } from "../../../Models/Base/ipagination-data";
+import { defaultPaginationData } from "../../../constants/Pagination/defaultPaginationData";
 @Injectable({
   providedIn: "root",
 })
@@ -15,20 +16,12 @@ export class NotesService {
   private http = inject(GenericHttpService);
   private toast = inject(ToastService);
   private endpoint = "Notes";
+  private initialLoad = true;
 
   data = signal<IPaginatedResponse<INote>>({} as IPaginatedResponse<INote>);
   single = signal<INote | undefined>(undefined);
   isLoading = signal<boolean>(false);
-  pagination = signal<IPaginationData>({
-    page: 1,
-    pageSize: 15,
-    total: 0,
-    lastPage: 0,
-    hasPrevious: false,
-    hasNext: false,
-  });
-
-  private initialLoad = true;
+  pagination = signal<IPaginationData>(defaultPaginationData);
 
   constructor() {
     this.fetchNotes();

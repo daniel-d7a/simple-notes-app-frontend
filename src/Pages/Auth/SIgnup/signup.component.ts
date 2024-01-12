@@ -1,4 +1,4 @@
-import { passwordRules } from "./../../../constants/passwordRules";
+import { passwordRules } from "../../../constants/Rules/passwordRules";
 import { Component, inject } from "@angular/core";
 import {
   FormControl,
@@ -12,6 +12,7 @@ import { AuthService } from "../../../Services/http/Auth/auth.service";
 import { ErrorTextComponent } from "../../../Shared/Typography/error-text/error-text.component";
 import { SmallLoadingSpinnerComponent } from "../../../Shared/LoadinSpinner/small-loading-spinner/small-loading-spinner.component";
 import { RouterLink } from "@angular/router";
+import { userNameRules } from "../../../constants/Rules/userNameRules";
 
 @Component({
   selector: "app-signup",
@@ -30,6 +31,7 @@ import { RouterLink } from "@angular/router";
 export class SignupComponent {
   private authService = inject(AuthService);
   signupPasswordRules = passwordRules;
+  signupUserNameRules = userNameRules;
 
   isLoading = this.authService.isLoading;
 
@@ -43,6 +45,7 @@ export class SignupComponent {
       validators: [
         Validators.minLength(4),
         Validators.maxLength(50),
+        Validators.pattern(/^\S+$/),
         Validators.required,
       ],
     }),
@@ -51,7 +54,7 @@ export class SignupComponent {
       validators: [
         Validators.minLength(6),
         Validators.pattern(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#*?&])[A-Za-z\d@$!#%*?&]{6,}$/
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#*?&_])[A-Za-z\d@$!#%*?&]{6,}$/
         ),
         Validators.required,
       ],

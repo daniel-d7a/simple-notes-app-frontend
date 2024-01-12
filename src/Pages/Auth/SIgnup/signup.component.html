@@ -19,7 +19,11 @@
     placeholder="Username"
     class="input rounded-none w-full max-w-5xl text-2xl border-b-2 focus:outline-none focus:border-transparent focus:border-b-2 focus:border-b-slate-500"
   />
-  <error-text [form]="signupForm" controlName="username" />
+  <error-text
+    [form]="signupForm"
+    controlName="username"
+    [rules]="signupUserNameRules"
+  />
 
   <input
     formControlName="password"

@@ -9,7 +9,7 @@ import {
 import { AuthService } from "../../../Services/http/Auth/auth.service";
 import { ErrorTextComponent } from "../../../Shared/Typography/error-text/error-text.component";
 import { SmallLoadingSpinnerComponent } from "../../../Shared/LoadinSpinner/small-loading-spinner/small-loading-spinner.component";
-import { passwordRules } from "../../../constants/passwordRules";
+import { passwordRules } from "../../../constants/Rules/passwordRules";
 import { RouterLink } from "@angular/router";
 
 @Component({
