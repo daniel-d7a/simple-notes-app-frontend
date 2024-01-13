@@ -30,11 +30,14 @@ export class CreateNoteComponent {
 
   onSubmit() {
     this.isLoading = true;
-    this.notesService.createNote({
-      title: this.noteForm.value.title,
-      body: this.noteForm.value.body,
-      userId: this.cookieService.getData()?.user?.id,
-    } as INote);
+    this.notesService.createData(
+      {
+        title: this.noteForm.value.title,
+        body: this.noteForm.value.body,
+        userId: this.cookieService.getData()?.user?.id,
+      } as INote,
+      "Note created successfully"
+    );
     this.resetForm();
   }
 

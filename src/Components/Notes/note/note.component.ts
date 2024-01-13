@@ -25,6 +25,6 @@ export class NoteComponent {
   }
 
   deleteNote() {
-    this.notesService.deleteNote(this.note.id);
+    this.notesService.deleteData(this.note.id, "Note deleted successfully");
   }
 }

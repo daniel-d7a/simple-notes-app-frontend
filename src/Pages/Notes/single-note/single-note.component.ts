@@ -29,7 +29,7 @@ export class SingleNoteComponent {
 
   constructor() {
     const id = this.activatedRoute.snapshot.paramMap.get("id");
-    this.note = this.notesService.getNote(Number(id));
+    this.note = this.notesService.getSingle(Number(id));
 
     this.noteForm = new FormGroup(
       {
@@ -41,17 +41,19 @@ export class SingleNoteComponent {
   }
 
   onSubmit() {
-    this.notesService.updateNote({
-      userId: this.cookieService.getData()?.user?.id,
-      title: this.noteForm.value.title,
-      body: this.noteForm.value.body,
-      id: this.note()?.id || 0,
-    } as INote);
+    this.notesService.updateData(
+      {
+        userId: this.cookieService.getData()?.user?.id,
+        title: this.noteForm.value.title,
+        body: this.noteForm.value.body,
+        id: this.note()?.id || 0,
+      } as INote,
+      "Note updated successfully"
+    );
     this.isEditing = false;
   }
 
   goBack() {
-    this.notesService.resetNote();
     this.location.back();
   }
 
