@@ -8,11 +8,14 @@ import { HttpParams } from "@angular/common/http";
 import { finalize } from "rxjs";
 import { IGenericResponse } from "../../Models/Base/igeneric-response";
 import { IBaseItem } from "../../Models/Base/IBaseItem";
+import { ActivatedRoute, Router } from "@angular/router";
 
 export class BaseService<T extends IBaseItem> {
   protected http = inject(GenericHttpService);
   protected toast = inject(ToastService);
   protected initialLoad = true;
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
 
   data = signal<IPaginatedResponse<T>>({} as IPaginatedResponse<T>);
   single = signal<T | undefined>(undefined);
@@ -36,6 +39,13 @@ export class BaseService<T extends IBaseItem> {
       ...this.pagination(),
       page: this.pagination().page + 1,
     });
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        page: this.pagination().page + 1,
+      },
+      queryParamsHandling: "merge",
+    });
     this.initialLoad = true;
     this.fetchData();
   }
@@ -44,6 +54,13 @@ export class BaseService<T extends IBaseItem> {
     this.pagination.set({
       ...this.pagination(),
       page: this.pagination().page - 1,
+    });
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        page: this.pagination().page - 1,
+      },
+      queryParamsHandling: "merge",
     });
     this.initialLoad = true;
     this.fetchData();
@@ -54,6 +71,13 @@ export class BaseService<T extends IBaseItem> {
     this.pagination.set({
       ...this.pagination(),
       page,
+    });
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        page: page,
+      },
+      queryParamsHandling: "merge",
     });
     this.initialLoad = true;
     this.fetchData();

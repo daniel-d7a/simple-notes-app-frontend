@@ -8,6 +8,7 @@ import { HeaderComponent } from "../../../Shared/Typography/header/header.compon
 import { NotesService } from "../../../Services/http/Notes/notes.service";
 import { TopHeaderComponent } from "../../../Components/Layout/top-header/top-header.component";
 import { PaginationComponent } from "../../../Components/Layout/pagination/pagination.component";
+import { getClickHandlers } from "../../../Shared/Pagination/getClickHandlers";
 
 @Component({
   selector: "app-notes-home",
@@ -35,16 +36,5 @@ export class NotesHomeComponent {
   constructor() {
     this.notes = this.notesService.data;
   }
-
-  onClicks = {
-    increment: () => {
-      this.notesService.incrementPage();
-    },
-    decrement: () => {
-      this.notesService.decrementPage();
-    },
-    set: (page: number) => {
-      this.notesService.setPage(page);
-    },
-  };
+  onClicks = getClickHandlers(this.notesService);
 }

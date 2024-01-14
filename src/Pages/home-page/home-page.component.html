@@ -1,8 +1,24 @@
-<div class="flex justify-start items-start">
-  <div class="absolute md:relative w-14 z-10">
-    <app-side-bar />
-  </div>
-  <div class="flex-1">
-    <router-outlet />
-  </div>
+<app-top-header title="Home" />
+
+@if(isLoading()){
+<div class="flex justify-center w-full mt-56">
+  <loading-spinner />
 </div>
+}@else{
+<div
+  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-4 gap-4 w-full mb-4"
+>
+  @for(item of data() ; track item.id){ @if(isTodo(item)){
+  <todo [todo]="item" />
+  } @else {
+  <note [note]="item" />
+  } }@empty{
+  <p class="text-4xl text-center w-full mt-20 capitalize">
+    -------- Empty --------
+  </p>
+  }
+</div>
+<div class="flex justify-center mb-2">
+  <pagination [onClicks]="onClicks" [lastPage]="pagination().lastPage" />
+</div>
+}

@@ -1,6 +1,5 @@
-import { Component, Input, OnChanges } from "@angular/core";
-import { BaseService } from "../../../Services/http/base.service";
-import { IBaseItem } from "../../../Models/Base/IBaseItem";
+import { Component, Input, OnChanges, OnDestroy, inject } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "pagination",
@@ -9,14 +8,27 @@ import { IBaseItem } from "../../../Models/Base/IBaseItem";
   templateUrl: "./pagination.component.html",
   styleUrl: "./pagination.component.css",
 })
-export class PaginationComponent implements OnChanges {
+export class PaginationComponent implements OnChanges, OnDestroy {
   @Input({ required: true }) onClicks!: {
     increment: () => void;
     decrement: () => void;
     set: (page: number) => void;
   };
-  @Input({ required: true }) page = 1;
   @Input({ required: true }) lastPage = 1;
+  page = 1;
+  pageSubscription;
+  private activateRoute = inject(ActivatedRoute);
+  constructor() {
+    this.pageSubscription = this.activateRoute.queryParamMap.subscribe(
+      (params) => {
+        this.page = Number(params.get("page")) || 1;
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.pageSubscription.unsubscribe();
+  }
 
   paginationElements = this.getPaginationElements();
 

@@ -7,15 +7,20 @@ import { loggedInGuard } from "../Guards/auth/logged-in.guard";
 import { HomePageComponent } from "../Pages/home-page/home-page.component";
 import { TodosHomeComponent } from "../Pages/Todos/todos-home/todos-home.component";
 import { SingleTodoComponent } from "../Pages/Todos/single-todo/single-todo.component";
+import { SidenavComponent } from "../Pages/sidenav/sidenav.component";
 
 export const routes: Routes = [
   {
     path: "",
-    component: HomePageComponent,
+    component: SidenavComponent,
     canActivate: [loggedInGuard],
     children: [
       {
         path: "",
+        component: HomePageComponent,
+      },
+      {
+        path: "notes",
         component: NotesHomeComponent,
       },
       {
