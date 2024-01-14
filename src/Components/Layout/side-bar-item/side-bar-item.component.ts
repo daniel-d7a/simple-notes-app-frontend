@@ -1,6 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { RouterLink, RouterModule } from "@angular/router";
+import {
+  IsActiveMatchOptions,
+  RouterLink,
+  RouterModule,
+} from "@angular/router";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import {
   faNoteSticky,
@@ -33,4 +37,11 @@ export class SideBarItemComponent {
   @Input({ required: true }) icon!: string;
   @Input({ required: true }) tooltip!: string;
   @Input({ required: true }) to!: string;
+
+  matchOptions: IsActiveMatchOptions = {
+    paths: "exact",
+    queryParams: "ignored",
+    fragment: "ignored",
+    matrixParams: "ignored",
+  };
 }
