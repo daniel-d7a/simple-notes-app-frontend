@@ -34,7 +34,16 @@ This notes app is built with Angular, featuring various functionalities for orga
 
 ## Contributing
 
-If you'd like to contribute to the project, please follow our [contribution guidelines](CONTRIBUTING.md).
+If you'd like to contribute to the project, do the following:- 
+1. have a thorough look at the application's code and coding style.
+2. check the `TODO.md` file in the **Todos** section for issues or features you would like to work on.
+3. after choosing a feature and starting to write code, please make sure that:- 
+   3.1. you write clean, understandable code that could be well-read and modified later.
+   3.2. your changes DO NOT break any existing functionality
+   3.3. you only add functionality, DO NOT REMOVE ANY WORKING CODE
+Any PR that does not comply with the rules above will be revoked, and the author shall be given notice of the reasons.
+
+Happy contributions!
 
 ## License
 
