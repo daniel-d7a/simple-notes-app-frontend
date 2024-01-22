@@ -1,10 +1,11 @@
-<li class="tooltip tooltip-right" [attr.data-tip]="tooltip">
+<li class="flex w-28">
   <a
-    [routerLink]="to"
+    (click)="navigate()"
     routerLinkActive="active"
     [routerLinkActiveOptions]="matchOptions"
-    class="btn btn-sm text-xl text-right text-white"
+    class="flex items-center gap-4"
   >
-    <ng-icon [name]="icon" />
+    <ng-icon class="text-xl text-right text-white" [name]="icon" />
+    <p class="w-24 overflow-clip">{{ tooltip | truncate }}</p>
   </a>
 </li>

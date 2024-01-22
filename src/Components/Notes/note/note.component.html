@@ -1,7 +1,7 @@
 <div
   (click)="navigateToNote()"
   [class.opacity-50]="!note.id"
-  class="card w-full h-52 bg-base-300 shadow-xl cursor-pointer"
+  class="card w-full min-h-52 bg-base-300 shadow-xl cursor-pointer"
 >
   <div class="card-body items-center">
     <div class="card-actions w-full justify-between">
@@ -15,12 +15,51 @@
       </div>
       <button
         [disabled]="!note.id"
-        (click)="deleteNote()"
+        (click)="toggleFavourite($event)"
         class="btn btn-sm text-xl text-right"
+      >
+        @if(note.isFavourite){
+        <ng-icon name="faSolidStar"></ng-icon>
+        }@else {
+        <ng-icon name="faStar"></ng-icon>
+        }
+      </button>
+    </div>
+    <p class="self-start w-full break-words">
+      {{ (note.body | truncate : 150) || "" }}
+    </p>
+
+    <!-- labels -->
+    <div class="flex flex-wrap gap-2 w-full">
+      @for(label of note.labels; track label.id) {
+      <p class="badge badge-lg badge-neutral max-w-fit gap-x-1">
+        {{ label.name }}
+        <ng-icon (click)="deleteLabel($event, label)" name="faSolidXmark" />
+      </p>
+      }
+    </div>
+    <!-- end of labels -->
+
+    <!-- controls -->
+    <div class="flex w-full gap-2 justify-self-end row-start-4 col-span-full">
+      <!-- add label button -->
+      <button (click)="openAddLabel($event)" class="btn btn-sm flex-grow">
+        + Add Label
+      </button>
+      <!-- end  of add label button -->
+
+      <!-- delete button -->
+      <button
+        [disabled]="!note.id"
+        (click)="deleteNote()"
+        class="btn btn-sm text-right"
       >
         <ng-icon name="faTrashCan"></ng-icon>
       </button>
+      <!-- end of delete button -->
     </div>
-    <p class="self-start">{{ (note.body | truncate : 50) || "" }}</p>
+    <!-- end of controls -->
   </div>
 </div>
+
+<add-label-modal [item]="note" />

@@ -1,0 +1,27 @@
+<dialog [id]="'addLabelModal' + modalType() + item.id" class="modal">
+  <div
+    class="modal-box max-h-[500px] scrollbar scrollbar-track-transparent scrollbar-thumb-rounded-lg scrollbar-thumb-base-300"
+  >
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        ✕
+      </button>
+    </form>
+    <h2 class="font-bold text-2xl">Labels</h2>
+    <div class="flex flex-col gap-3 mt-3">
+      @for(label of totalLabels(); track label.id){
+
+      <div class="form-control">
+        <label (click)="addToLabel($event, label)" class="label cursor-pointer">
+          <span class="label-text text-lg">{{ label.name }}</span>
+          <input
+            type="checkbox"
+            [checked]="doesLabelExist(label)"
+            class="checkbox checkbox-sm"
+          />
+        </label>
+      </div>
+      }
+    </div>
+  </div>
+</dialog>

@@ -1,7 +1,7 @@
 <div
   (click)="navigateToTodo()"
   [class.opacity-50]="!todo.id"
-  class="card w-full h-52 bg-base-300 shadow-xl cursor-pointer"
+  class="card w-full bg-base-300 shadow-xl cursor-pointer"
 >
   <div class="card-body items-center">
     <div class="card-actions w-full justify-between">
@@ -18,40 +18,84 @@
       </div>
       <button
         [disabled]="!todo.id"
-        (click)="deleteTodo()"
+        (click)="toggleFavourite($event)"
         class="btn btn-sm text-xl text-right"
       >
-        <ng-icon (click)="deleteTodo()" name="faTrashCan"></ng-icon>
+        @if(todo.isFavourite){
+        <ng-icon name="faSolidStar"></ng-icon>
+        }@else {
+        <ng-icon name="faStar"></ng-icon>
+        }
       </button>
     </div>
-    <div class="self-start">
-      @for(entry of visibleEntries() ; track entry.id){
-      <div class="form-control">
-        <label
-          [ngClass]="{
-            'line-through': entry.isDone,
-            'opacity-60': entry.isDone
-          }"
-          class="label cursor-pointer self-start"
-        >
-          <input
-            type="checkbox"
-            [checked]="entry.isDone"
-            class="checkbox checkbox-sm"
-          />
-          <span class="label-text ml-2">{{
-            (entry.text | truncate : 50) || ""
-          }}</span>
-        </label>
+    <div class="w-full grid gap-y-2 grid-cols-6 grid-rows-4-auto">
+      <!-- todo content -->
+      <div class="row-start-1 col-span-full">
+        @for(entry of visibleEntries() ; track entry.id){
+        <div class="form-control">
+          <label
+            [ngClass]="{
+              'line-through': entry.isDone,
+              'opacity-60': entry.isDone
+            }"
+            class="label cursor-pointer self-start"
+          >
+            <input
+              type="checkbox"
+              [checked]="entry.isDone"
+              class="checkbox checkbox-sm"
+            />
+            <span class="label-text ml-2">{{
+              (entry.text | truncate : 50) || ""
+            }}</span>
+          </label>
+        </div>
+        }@empty {
+        <p class="self-center">---- Empty ----</p>
+        }
       </div>
-      }@empty {
-      <p class="self-center">---- Empty ----</p>
-      } @if(visibleEntries().length < todo.entries.length){
-      <p class="p-1">+ {{ todo.entries.length - 2 }} more...</p>
+      <!-- end of todo content -->
 
+      <!-- + x more -->
+      @if(visibleEntries().length < todo.entries.length){
+      <p class="p-1 row-start-2 col-span-full">
+        + {{ todo.entries.length - 2 }} more...
+      </p>
       }
-      <!-- TODO:add a nice image for empty todos -->
-      <!-- TODO:add a nice image for all done todos -->
+      <!-- end of + x more -->
+
+      <!-- labels -->
+      <div class="flex flex-wrap gap-2 row-start-3 col-span-full">
+        @for(label of todo.labels; track label.id) {
+        <p class="badge badge-lg badge-neutral max-w-fit gap-x-1">
+          {{ label.name }}
+          <ng-icon (click)="deleteLabel($event, label)" name="faSolidXmark" />
+        </p>
+        }
+      </div>
+      <!-- end of labels -->
+
+      <!-- controls -->
+      <div class="flex w-full gap-2 justify-self-end row-start-4 col-span-full">
+        <!-- add label button -->
+        <button (click)="openAddLabel($event)" class="btn btn-sm flex-grow">
+          + Add Label
+        </button>
+        <!-- end  of add label button -->
+
+        <!-- delete button -->
+        <button
+          [disabled]="!todo.id"
+          (click)="deleteTodo()"
+          class="btn btn-sm text-right"
+        >
+          <ng-icon name="faTrashCan"></ng-icon>
+        </button>
+        <!-- end of delete button -->
+      </div>
+      <!-- end of controls -->
     </div>
   </div>
 </div>
+
+<add-label-modal [item]="todo" />

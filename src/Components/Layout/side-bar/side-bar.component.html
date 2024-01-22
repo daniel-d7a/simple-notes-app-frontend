@@ -1,35 +1,72 @@
-<div
-  [class.-translate-x-16]="isClosed"
-  class="fixed flex justify-start items-start mt-32 py-4 transition-transform"
->
-  <ul class="menu bg-base-200 rounded-r-box gap-6">
-    <side-bar-item icon="heroHome" tooltip="Home (coming soon)" to="/" />
-    <side-bar-item
-      icon="faStar"
-      tooltip="Favourites (coming soon)"
-      to="/favourites"
-    />
-    <side-bar-item icon="faNoteSticky" tooltip="Notes" to="/notes" />
-    <side-bar-item icon="faPenToSquare" tooltip="Todos" to="/todos" />
-    <side-bar-item
-      icon="faBookmark"
-      tooltip="Label 1 (coming soon)"
-      to="/label1"
-    />
-    <side-bar-item
-      icon="faBookmark"
-      tooltip="Label 2 (coming soon)"
-      to="/label2"
-    />
-    <side-bar-item
-      icon="faTrashCan"
-      tooltip="Trash (coming soon)"
-      to="/trash"
-    />
-  </ul>
+<div class="absolute md:relative w-14 z-10">
+  <div
+    [ngClass]="{
+    '-translate-x-16 ': isClosed,
+  }"
+    class="lg:translate-x-0 transition-all scrollbar-none scrollbar-track-base-100 scrollbar-thumb-base-300 fixed flex justify-start items-start bg-base-200 rounded-r-box mt-32 max-h-[500px] overflow-y-auto overflow-x-hidden"
+  >
+    <ul
+      [ngClass]="{
+    'w-40': !isClosed,
+  }"
+      class="menu p-2 gap-6 hover:w-40 w-14"
+      style="transition: width 300ms ease"
+    >
+      <side-bar-item icon="heroHome" tooltip="Home" to="/" />
+      <side-bar-item
+        icon="faStar"
+        tooltip="Favourites"
+        to="/"
+        [params]="{ type: 'favourite' }"
+      />
+      <side-bar-item icon="faNoteSticky" tooltip="Notes" to="/notes" />
+      <side-bar-item icon="faPenToSquare" tooltip="Todos" to="/todos" />
+
+      <div class="relative -my-4 flex justify-end items-center w-36">
+        <p (click)="toggleEdit()" class="font-bold text-xs cursor-pointer">
+          {{ editLabels ? "Close" : "Edit" }}
+        </p>
+      </div>
+      @for(label of labels(); track label.id){
+
+      <label-item [label]="label" [isEditing]="editLabels" />
+
+      } @if(!addLabel){
+      <li class="w-40" (click)="toggleAddLable()">
+        <a class="flex items-center gap-4">
+          <ng-icon
+            class="text-xl text-right text-white"
+            name="bootstrapBookmarkPlus"
+          />
+          <p>add label</p>
+        </a>
+      </li>
+      }@else {
+
+      <input
+        #labelInput
+        (blur)="createLabel($event)"
+        (keydown.enter)="createLabel($event)"
+        type="text"
+        placeholder="+ Add new label"
+        class="bg-transparent ml-5 w-28 p-0 m-0 focus:outline-none focus:border-0"
+      />
+      }
+
+      <side-bar-item
+        icon="faTrashCan"
+        tooltip="Trash (coming soon)"
+        to="/trash"
+      />
+    </ul>
+  </div>
   <div
     (click)="toggleSideBar()"
-    class="mt-6 md:hidden grid place-items-center text-xl bg-base-200 p-3 rounded-r-box"
+    [ngClass]="{
+    'left-0': isClosed,
+    'left-40': !isClosed,
+  }"
+    class="transition-all lg:hidden top-[20dvh] left-14 fixed grid place-items-center text-xl bg-base-200 p-3 rounded-r-box"
   >
     <ng-icon name="ionMenu" />
   </div>

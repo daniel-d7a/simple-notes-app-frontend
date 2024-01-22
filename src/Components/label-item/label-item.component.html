@@ -1,0 +1,32 @@
+@if(isEditing){
+<form [formGroup]="nameForm">
+  <input
+    formControlName="name"
+    #updateLabelInput
+    type="text"
+    placeholder="label name"
+    class="bg-transparent ml-5 w-32 p-0 my-2 focus:outline-none focus:border-0"
+  />
+</form>
+
+}@else {
+
+<div class="flex justify-between items-center">
+  <side-bar-item
+    icon="faBookmark"
+    [tooltip]="label.name"
+    to="/"
+    [params]="{
+      label: label.name
+    }"
+  />
+  <div class="btn btn-sm">
+    <ng-icon
+      (click)="deleteLabel($event, label)"
+      name="faTrashCan"
+      class="text-md grid place-items-center cursor-pointer mr-4 z-10"
+    />
+  </div>
+</div>
+
+}
