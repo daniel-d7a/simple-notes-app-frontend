@@ -13,10 +13,12 @@
   @for(note of notes().data ; track note.id){
   <note [note]="note" />
   }@empty{
-  <p class="text-4xl text-center w-full mt-20 capitalize">no notes yet</p>
-  }
+
+  <no-data class="col-span-full mt-32" /> }
 </div>
+@if(notes().data.length > 0){
+
 <div class="flex justify-center">
   <pagination [onClicks]="onClicks" [lastPage]="pagination().lastPage" />
 </div>
-}
+} }

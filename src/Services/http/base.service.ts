@@ -1,3 +1,4 @@
+import { IGenericResponse } from "./../../Models/Base/igeneric-response";
 import { inject, signal } from "@angular/core";
 import { GenericHttpService } from "./generic-http-service.service";
 import { ToastService } from "../Toast/toast.service";
@@ -6,7 +7,6 @@ import { IPaginationData } from "../../Models/Base/ipagination-data";
 import { defaultPaginationData } from "../../constants/Pagination/defaultPaginationData";
 import { HttpParams } from "@angular/common/http";
 import { finalize } from "rxjs";
-import { IGenericResponse } from "../../Models/Base/igeneric-response";
 import { IBaseItem } from "../../Models/Base/IBaseItem";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -16,6 +16,7 @@ export class BaseService<T extends IBaseItem> {
   protected initialLoad = true;
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
+  private params = { type: "", name: "" };
 
   data = signal<IPaginatedResponse<T>>({} as IPaginatedResponse<T>);
   single = signal<T | undefined>(undefined);
@@ -23,14 +24,24 @@ export class BaseService<T extends IBaseItem> {
   pagination = signal<IPaginationData>(defaultPaginationData);
 
   constructor(protected endpoint: string) {
-    this.fetchData();
-    this.initialLoad = false;
+    this.activatedRoute.queryParamMap.subscribe((params) => {
+      this.params = Object.entries(params)[0][1];
+      this.pagination.set({ ...defaultPaginationData });
+      this.fetchData();
+      this.initialLoad = false;
+    });
   }
 
   protected getSearchParams() {
     let params = new HttpParams()
       .append("page", this.pagination().page.toString())
       .append("pageSize", this.pagination().pageSize.toString());
+    Object.entries(this.params).forEach(([key, value]) => {
+      if (value) {
+        params = params.append(key, value);
+      }
+    });
+
     return params;
   }
   public incrementPage() {
@@ -82,11 +93,12 @@ export class BaseService<T extends IBaseItem> {
     this.initialLoad = true;
     this.fetchData();
   }
-  protected fetchData() {
+  public fetchData() {
     if (this.initialLoad) {
       this.isLoading.set(true);
     }
-    const params = this.getSearchParams();
+    let params = this.getSearchParams();
+
     this.http
       .get<IGenericResponse<IPaginatedResponse<T>>>(this.endpoint, { params })
       .pipe(finalize(() => this.isLoading.set(false)))
@@ -98,7 +110,7 @@ export class BaseService<T extends IBaseItem> {
       });
   }
   public createData(newData: T, successMessage: string) {
-    const newNotes = [...this.data()?.data, newData];
+    const newNotes = [newData, ...this.data()?.data];
     this.data.set({ ...this.data(), data: newNotes });
     this.http.post<T>(this.endpoint, newData).subscribe({
       next: () => {
@@ -106,7 +118,7 @@ export class BaseService<T extends IBaseItem> {
         this.toast.showSuccess(successMessage);
       },
       error: (e: IGenericResponse<T>) => {
-        this.toast.showError(e.message);
+        this.toast.showError(e.message || e.error);
       },
     });
   }
@@ -121,7 +133,7 @@ export class BaseService<T extends IBaseItem> {
         this.toast.showSuccess(successMessage);
       },
       error: (e: IGenericResponse<T>) => {
-        this.toast.showError(e.message);
+        this.toast.showError(e.message || e.error);
       },
     });
   }
@@ -147,7 +159,7 @@ export class BaseService<T extends IBaseItem> {
         this.toast.showSuccess(successMessage);
       },
       error: (e: IGenericResponse<T>) => {
-        this.toast.showError(e.message);
+        this.toast.showError(e.message || e.error);
       },
     });
   }
@@ -163,5 +175,9 @@ export class BaseService<T extends IBaseItem> {
 
   public resetSingle() {
     this.single.set(undefined);
+  }
+
+  baseErrorHandler<TError>(e: IGenericResponse<TError>) {
+    this.toast.showError(e.message || e.error);
   }
 }

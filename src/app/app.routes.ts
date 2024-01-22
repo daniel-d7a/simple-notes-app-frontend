@@ -19,6 +19,10 @@ export const routes: Routes = [
         path: "",
         component: HomePageComponent,
       },
+      // {
+      //   path: "?type=all",
+      //   component: HomePageComponent,
+      // },
       {
         path: "notes",
         component: NotesHomeComponent,

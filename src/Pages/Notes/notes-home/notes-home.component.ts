@@ -1,4 +1,3 @@
-import { AsyncPipe, JsonPipe } from "@angular/common";
 import { CreateNoteComponent } from "../../../Components/Notes/create-note/create-note.component";
 import { NoteComponent } from "./../../../Components/Notes/note/note.component";
 import { Component, inject } from "@angular/core";
@@ -9,6 +8,7 @@ import { NotesService } from "../../../Services/http/Notes/notes.service";
 import { TopHeaderComponent } from "../../../Components/Layout/top-header/top-header.component";
 import { PaginationComponent } from "../../../Components/Layout/pagination/pagination.component";
 import { getClickHandlers } from "../../../Shared/Pagination/getClickHandlers";
+import { NoDataComponent } from "../../../Components/Layout/no-data/no-data.component";
 
 @Component({
   selector: "app-notes-home",
@@ -16,13 +16,12 @@ import { getClickHandlers } from "../../../Shared/Pagination/getClickHandlers";
   imports: [
     NoteComponent,
     CreateNoteComponent,
-    AsyncPipe,
-    JsonPipe,
     LoadingSpinnerComponent,
     SmallLoadingSpinnerComponent,
     HeaderComponent,
     TopHeaderComponent,
     PaginationComponent,
+    NoDataComponent,
   ],
   templateUrl: "./notes-home.component.html",
   styleUrl: "./notes-home.component.css",

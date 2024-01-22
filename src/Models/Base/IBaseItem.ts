@@ -1,3 +1,5 @@
+import { ILabel } from "../Label/Label";
+
 export type IBaseItem = {
   id: number;
   isFavourite: boolean;
@@ -5,4 +7,5 @@ export type IBaseItem = {
   updatedAt: Date;
   userId: string;
   user?: any;
+  labels: ILabel[];
 };

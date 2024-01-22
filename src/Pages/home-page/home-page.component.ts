@@ -2,7 +2,7 @@ import { defaultPaginationData } from "./../../constants/Pagination/defaultPagin
 import { INote } from "../../Models/Note/INote";
 import { ITodo } from "./../../Models/Todo/ITodo";
 import { IBaseItem } from "./../../Models/Base/IBaseItem";
-import { Component, Signal, computed, inject, untracked } from "@angular/core";
+import { Component, Signal, computed, inject } from "@angular/core";
 import { TopHeaderComponent } from "../../Components/Layout/top-header/top-header.component";
 import { TodoService } from "../../Services/http/Todos/todo.service";
 import { NotesService } from "../../Services/http/Notes/notes.service";
@@ -13,7 +13,8 @@ import { PaginationComponent } from "../../Components/Layout/pagination/paginati
 import { IPagination } from "../../Models/utils/paginationData";
 import { BaseService } from "../../Services/http/base.service";
 import { ActivatedRoute } from "@angular/router";
-
+import { NoDataComponent } from "../../Components/Layout/no-data/no-data.component";
+import { TodoGuard } from "../../Shared/Type Guards/isTodo";
 @Component({
   selector: "app-home-page",
   standalone: true,
@@ -23,6 +24,7 @@ import { ActivatedRoute } from "@angular/router";
     NoteComponent,
     TodoComponent,
     PaginationComponent,
+    NoDataComponent,
   ],
   templateUrl: "./home-page.component.html",
   styleUrl: "./home-page.component.css",
@@ -34,6 +36,9 @@ export class HomePageComponent {
   isLoading: Signal<boolean>;
   data: Signal<(INote | ITodo)[]>;
   pagination: Signal<Omit<IPagination, "total" | "pageSize">>;
+  title: string = "";
+
+  todoGuard = TodoGuard;
 
   constructor() {
     this.data = computed(() => this.loadData());
@@ -41,6 +46,11 @@ export class HomePageComponent {
       () => this.noteService.isLoading() || this.todoService.isLoading()
     );
     this.pagination = computed(() => this.getInitialPaginationData());
+    this.activatedRoute.queryParamMap.subscribe((params) => {
+      const title = params.get("type") || params.get("label") || "home";
+      this.title = title.charAt(0).toUpperCase() + title.slice(1);
+      console.log("title => ", this.title);
+    });
   }
 
   getInitialPaginationData() {
@@ -56,16 +66,12 @@ export class HomePageComponent {
     };
   }
 
-  isTodo(item: IBaseItem): item is ITodo {
-    return (item as ITodo).entries ? true : false;
-  }
-
   loadData() {
     const notes = this.getServiceDataPaginated(this.noteService);
     const todos = this.getServiceDataPaginated(this.todoService);
     return [...notes, ...todos].sort(
       (a, b) =>
-        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
   }
 
